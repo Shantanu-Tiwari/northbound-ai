@@ -9,6 +9,7 @@ import { authOptions } from '../api/auth/[...nextauth]/route';
 import { generateCampaign } from '@/lib/ai'; // Import our new AI function
 
 export async function createCampaignAction(formData: FormData) {
+    console.log('Attempting to connect to URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
         throw new Error('User is not authenticated.');
