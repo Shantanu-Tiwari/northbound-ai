@@ -1,14 +1,29 @@
 // in app/create/CreateCampaignForm.tsx
 'use client';
 
-import { useState } from 'react';
-import {createCampaignAction} from "@/app/create/actions";
+// Make sure to import useFormStatus from 'react-dom'
+import { useFormStatus } from 'react-dom';
+import { createCampaignAction } from "@/app/create/actions";
+
+// Step 1: Create a new component for the submit button
+function SubmitButton() {
+    // useFormStatus gives us the pending state of the form
+    const { pending } = useFormStatus();
+
+    return (
+        <button
+            type="submit"
+            disabled={pending} // Disable the button when pending is true
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors"
+        >
+            {/* Change the text when the form is submitting */}
+            {pending ? 'Generating Campaign...' : 'Generate Campaign'}
+        </button>
+    );
+}
 
 
 export default function CreateCampaignForm() {
-    // We can add state for form data, loading, and errors later
-    // For now, let's build the UI.
-
     return (
         <form action={createCampaignAction} className="space-y-6 bg-white p-8 rounded-lg shadow-md">
             <div>
@@ -54,12 +69,8 @@ export default function CreateCampaignForm() {
             </div>
 
             <div>
-                <button
-                    type="submit"
-                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-400 transition-colors"
-                >
-                    Generate Campaign
-                </button>
+                {/* Step 2: Use the new SubmitButton component here */}
+                <SubmitButton />
             </div>
         </form>
     );
